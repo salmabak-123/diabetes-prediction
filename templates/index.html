@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prédiction diabète</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    background: #F4F6F8;
+    color: #1A1D1F;
+    display: flex;
+    justify-content: center;
+    padding: 40px 16px;
+  }
+  .card {
+    background: #fff;
+    width: 100%;
+    max-width: 440px;
+    border-radius: 14px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    padding: 32px;
+  }
+  h1 {
+    font-size: 22px;
+    margin: 0 0 24px;
+    text-align: center;
+  }
+  .field { margin-bottom: 16px; }
+  .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 6px;
+  }
+  .field input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #E4E7EB;
+    border-radius: 10px;
+    font-size: 15px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  .field input:focus {
+    border-color: #2E7D6B;
+    box-shadow: 0 0 0 4px rgba(46,125,107,0.12);
+  }
+  .field input:valid { border-color: #B7DED3; }
+  button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 8px;
+    background: #2E7D6B;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.1s, background 0.2s;
+  }
+  button:hover { background: #256A5A; }
+  button:active { transform: scale(0.98); }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>Prédiction du diabète</h1>
+    <form action="/predict" method="POST">
+      <div class="field">
+        <label>BMI</label>
+        <input type="number" step="0.1" name="bmi" placeholder="26" required>
+      </div>
+      <div class="field">
+        <label>s5 (log triglycérides)</label>
+        <input type="number" step="0.01" name="s5" placeholder="4.6" required>
+      </div>
+      <div class="field">
+        <label>Pression artérielle (bp)</label>
+        <input type="number" step="0.1" name="bp" placeholder="95" required>
+      </div>
+      <div class="field">
+        <label>s4 (cholestérol / HDL)</label>
+        <input type="number" step="0.1" name="s4" placeholder="4" required>
+      </div>
+      <div class="field">
+        <label>s3 (HDL)</label>
+        <input type="number" step="0.1" name="s3" placeholder="50" required>
+      </div>
+      <button type="submit">Prédire</button>
+    </form>
+  </div>
+</body>
+</html>

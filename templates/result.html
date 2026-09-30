@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Résultat</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    background: #F4F6F8;
+    color: #1A1D1F;
+    display: flex;
+    justify-content: center;
+    padding: 40px 16px;
+  }
+  .card {
+    background: #fff;
+    width: 100%;
+    max-width: 440px;
+    border-radius: 14px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    padding: 32px;
+    text-align: center;
+  }
+  h1 { font-size: 20px; margin: 0 0 24px; }
+  .gauge-wrap { position: relative; width: 200px; height: 200px; margin: 0 auto 20px; }
+  .gauge-value {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .gauge-value .num { font-size: 36px; font-weight: 700; color: #2E7D6B; }
+  .gauge-value .lbl { font-size: 11px; color: #888; margin-top: 2px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; text-align: left; }
+  td { padding: 9px 0; border-bottom: 1px solid #EEF0F2; font-size: 14px; }
+  td:last-child { text-align: right; font-weight: 600; }
+  a {
+    display: block;
+    margin-top: 20px;
+    padding: 12px;
+    border: 2px solid #2E7D6B;
+    border-radius: 10px;
+    color: #2E7D6B;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: background 0.2s;
+  }
+  a:hover { background: #EAF4F1; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>Score de progression prédit</h1>
+
+    <div class="gauge-wrap">
+      <svg width="200" height="200" viewBox="0 0 200 200">
+        <circle cx="100" cy="100" r="85" fill="none" stroke="#EEF0F2" stroke-width="14"/>
+        <circle id="gauge" cx="100" cy="100" r="85" fill="none" stroke="#2E7D6B" stroke-width="14"
+                stroke-linecap="round" stroke-dasharray="534" stroke-dashoffset="534"
+                transform="rotate(-90 100 100)"/>
+      </svg>
+      <div class="gauge-value">
+        <div class="num">{{ prediction }}</div>
+        <div class="lbl">sur ~350</div>
+      </div>
+    </div>
+
+    <table>
+      {% for key, value in inputs.items() %}
+      <tr><td>{{ key }}</td><td>{{ value }}</td></tr>
+      {% endfor %}
+    </table>
+
+    <a href="/">Nouvelle prédiction</a>
+  </div>
+
+  <script>
+    const prediction = {{ prediction }};
+    const maxScore = 350;
+    const circumference = 534;
+    const ratio = Math.max(0, Math.min(1, prediction / maxScore));
+    const offset = circumference - (ratio * circumference);
+    const gauge = document.getElementById('gauge');
+    requestAnimationFrame(() => {
+      gauge.style.transition = 'stroke-dashoffset 1s ease-out';
+      gauge.style.strokeDashoffset = offset;
+    });
+  </script>
+</body>
+</html>
